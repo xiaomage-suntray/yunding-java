@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.admin.modules.sys.dao.SysFormDetailDao">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.devplatform.admin.modules.sys.bean.SysFormDetail">
+	    <result column="id" property="id"/>
+	    <result column="form_id" property="formId"/>
+	    <result column="discription_name" property="discriptionName"/>
+	    <result column="property_name" property="propertyName"/>
+	    <result column="column_name" property="columnName"/>
+	    <result column="create_time" property="createTime"/>
+	    <result column="create_user_id" property="createUserId"/>
+	    <result column="update_user_id" property="updateUserId"/>
+	    <result column="update_time" property="updateTime"/>
+	    <result column="remark" property="remark"/>
+	    <result column="del_flag" property="delFlag"/>
+	    <result column="status" property="status"/>
+	    <result column="type" property="type"/>
+	    <result column="sort" property="sort"/>
+	</resultMap>
+
+	<!-- sys_form_detail table all fields -->
+	<sql id="Base_Column_List">
+		id,form_id,discription_name,property_name,column_name,create_time,create_user_id,update_user_id,update_time,remark,del_flag,status,type,sort
+	</sql>
+
+	<!-- 公共查询条件 -->
+	<sql id="Example_Where_Clause">
+		where delete_flag=0
+		<if test="id!=null and id!=''">and id = #{id}</if>
+		<if test="formId!=null and formId!=''">and form_id = #{formId}</if>
+		<if test="discriptionName!=null and discriptionName!=''">and discription_name = #{discriptionName}</if>
+		<if test="propertyName!=null and propertyName!=''">and property_name = #{propertyName}</if>
+		<if test="columnName!=null and columnName!=''">and column_name = #{columnName}</if>
+		<if test="createTime!=null ">and create_time = #{createTime}</if>
+		<if test="createUserId!=null and createUserId!=''">and create_user_id = #{createUserId}</if>
+		<if test="updateUserId!=null and updateUserId!=''">and update_user_id = #{updateUserId}</if>
+		<if test="updateTime!=null ">and update_time = #{updateTime}</if>
+		<if test="remark!=null and remark!=''">and remark = #{remark}</if>
+		<if test="delFlag!=null ">and del_flag = #{delFlag}</if>
+		<if test="status!=null and status!=''">and status = #{status}</if>
+		<if test="type!=null ">and type = #{type}</if>
+		<if test="sort!=null ">and sort = #{sort}</if>
+	</sql>
+
+	<!-- 根据表单ID，查询所有表单明细 -->
+	<select id="getChildrenById" parameterType="string" resultType="com.devplatform.admin.modules.sys.bean.SysFormDetail">
+		select * from sys_form_detail where form_id = #{formId}
+	</select>
+
+	<!-- 根据表单URL，查询所有表单明细 -->
+	<select id="getChildrenByUrlLike" parameterType="string" resultType="com.devplatform.admin.modules.sys.bean.SysFormDetail">
+		select sfd.* from sys_form_detail sfd 
+		left join sys_form sf on sf.id = sfd.form_id
+		where sf.url like '%${_parameter}'
+	</select>
+
+</mapper>
+
+

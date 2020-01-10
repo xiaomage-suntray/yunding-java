@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.devplatform.admin.modules.sys.dao.SysUserDao">
+    <!-- 查询用户的所有权限 -->
+    <select id="queryAllPerms" resultType="string">
+        select m.perms from sys_user_role ur
+        LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id
+        LEFT JOIN sys_menu m on rm.menu_id = m.menu_id
+        where ur.user_id
+        = #{userId}
+    </select>
+
+    <!-- 查询用户的所有菜单ID -->
+    <select id="queryAllMenuId" resultType="String">
+        select distinct rm.menu_id from sys_user_role ur
+        LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id
+        where ur.user_id = #{userId}
+    </select>
+
+    <select id="queryByUserName" resultType="com.devplatform.admin.modules.sys.bean.SysUserEntity">
+        select * from sys_user where username = #{username}
+    </select>
+
+    <select id="queryByThename" resultType="com.devplatform.admin.modules.sys.bean.SysUserEntity">
+        select * from sys_user where thename = #{thename}
+    </select>
+
+    <!-- 查询当前用户的部门负责人 -->
+    <select id="queryByOrgHead" resultType="com.devplatform.admin.modules.sys.bean.SysUserEntity">
+
+        SELECT sop.user_id AS userId,su.username,su.thename FROM sys_user_org a
+        , sys_org_principal sop
+        , sys_user su 
+        WHERE
+        sop.org_id = a.org_id
+        and
+        sop.user_id = a.user_id
+        and
+        su.user_id = a.user_id 
+        and
+        EXISTS (SELECT b.*
+        FROM sys_user_org b
+        WHERE b.user_id = #{id} AND
+        a.org_id = b.org_id
+        );
+
+        <!-- 方法：根据user_id 找到组织下的成员，然后再根据user_id，找到上级岗位下的人员，取交集 -->
+        <!-- 找到组织 -->
+        <!-- SELECT org.user_id -->
+        <!-- FROM (SELECT user_id -->
+        <!-- FROM sys_user_org a -->
+        <!-- WHERE EXISTS (SELECT * -->
+        <!-- FROM sys_user_org b -->
+        <!-- WHERE user_id = #{id} -->
+        <!-- AND a.org_id = b.org_id)) org, -->
+        <!-- 找到上级岗位 -->
+        <!-- (SELECT user_id -->
+        <!-- FROM sys_user_post sup -->
+        <!-- WHERE EXISTS (SELECT * -->
+        <!-- FROM (SELECT parent_id -->
+        <!-- FROM sys_user_post sup, -->
+        <!-- sys_post so -->
+        <!-- WHERE -->
+        <!-- user_id = #{id} -->
+        <!-- AND sup.post_id = so.post_id) a -->
+        <!-- WHERE sup.post_id = a.parent_id)) post -->
+        <!-- WHERE org.user_id = post.user_id; -->
+
+    </select>
+    <!-- 查询当前用户的上级部门负责人 -->
+    <select id="queryByTheSuperiorOrgHead" resultType="com.devplatform.admin.modules.sys.bean.SysUserEntity">
+
+        SELECT suo1.user_id AS userid
+        FROM sys_org so,
+        (SELECT a.*
+        FROM sys_user_org a
+        WHERE
+        a.user_id = #{id} ) sur,
+        sys_user_org suo1,
+        sys_org_principal sop
+        WHERE so.`org_id` = sur.`org_id`
+        AND so.parent_id = suo1.org_id
+        and sop.org_id = suo1.org_id
+        AND sop.user_id = suo1.user_id
+
+    </select>
+    <!-- 根据组织机构编码获取组织负责人 -->
+    <select id="queryByOrgHeadIsOrgCode" resultType="com.devplatform.admin.modules.sys.bean.SysUserEntity">
+        select suo.user_id as userId from sys_org so ,
+        sys_user_org suo,
+        sys_org_principal sop
+        where so.org_code = #{orgId}
+        and so.org_id = suo.org_id
+        and sop.org_id = suo.org_id
+        AND sop.user_id = suo.user_id
+    </select>
+    <!-- 根据岗位编号，获取创建人所在机构的岗位人 -->
+    <select id="queryByOrgHeadIsPostCode" resultType="com.devplatform.admin.modules.sys.bean.SysUserEntity">
+        SELECT su.username
+        FROM sys_user su,
+        (SELECT a.user_id
+        FROM (SELECT user_id
+        FROM sys_user_org
+        WHERE org_code LIKE LIKE concat('%',#{orgCode},'')
+        ) a,
+        (SELECT sup.user_id
+        FROM sys_post sp,
+        sys_user_post sup
+        WHERE sp.post_id = sup.post_id
+        AND sp.post_code = #{postCode}) b
+        WHERE a.user_id = b.user_id) sorm
+        WHERE su.user_id = sorm.user_id
+    </select>
+    <!-- 根据角色id获取用户列表 -->
+    <select id="queryUserListByRoleId" resultType="com.devplatform.admin.modules.sys.bean.SysUserEntity">
+        SELECT su.*
+        FROM sys_user su, sys_user_role sur 
+        where su.user_id = sur.user_id
+        and sur.role_id = #{roleId}
+    </select>
+
+    <insert id="saveSupplierUser" parameterType="com.devplatform.admin.modules.sys.bean.SysUserEntity">
+        insert into sys_user (user_id,username,password,salt,create_user_id,create_time,type,status)
+        values (#{userId},#{username},#{password},#{salt},#{createUserId},#{createTime},#{type},#{status})
+
+    </insert>
+
+    <!-- 获取供应商用户数量 -->
+    <select id="selectSupplierUserCount" resultType="int" parameterType="com.devplatform.admin.modules.sys.bean.SysUserEntity">
+        select count(1) from sys_user where type=#{type}  and left(username, 3)
+            = #{username}
+    </select>
+    
+      <!-- 获取机构下所有人员 -->
+    <select id="queryByOrgCode" resultType="com.devplatform.admin.modules.sys.bean.SysUserEntity" parameterType="com.devplatform.admin.modules.sys.bean.SysUserEntity">
+        select su.user_id as userId ,su.username ,su.thename  from sys_user_org suo ,sys_user su where suo.org_code  LIKE concat('',#{orgCode},'%') and
+        suo.user_id = su.user_id
+    </select>
+
+</mapper>

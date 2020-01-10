@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.admin.business.sysMessage.dao.SysMessageDao">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.devplatform.admin.business.sysMessage.bean.SysMessage">
+	    <result column="id" property="id"/>
+	    <result column="msg_type" property="msgType"/>
+	    <result column="msg_title" property="msgTitle"/>
+	    <result column="msg_skipurl" property="msgSkipurl"/>
+	    <result column="msg_parameter" property="msgParameter"/>
+	    <result column="msg_initiator_user_id" property="msgInitiatorUserId"/>
+	    <result column="msg_recipient_user_id" property="msgRecipientUserId"/>
+	    <result column="msg_dispose_user_id" property="msgDisposeUserId"/>
+	    <result column="msg_state" property="msgState"/>
+	    <result column="msg_create_time" property="msgCreateTime"/>
+	    <result column="msg_create_dispose_time" property="msgCreateDisposeTime"/>
+	    <result column="msg_push_status" property="msgPushStatus"/>
+	</resultMap>
+
+	<!-- sys_message table all fields -->
+	<sql id="Base_Column_List">
+		id,msg_type,msg_title,msg_skipurl,msg_parameter,msg_initiator_user_id,msg_recipient_user_id,msg_dispose_user_id,msg_state,msg_create_time,msg_create_dispose_time,msg_push_status
+	</sql>
+
+	<!-- 公共查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<if test="id!=null and id!=''">and id = #{id}</if>
+		<if test="msgType!=null and msgType!=''">and msg_type = #{msgType}</if>
+		<if test="msgTitle!=null and msgTitle!=''">and msg_title = #{msgTitle}</if>
+		<if test="msgSkipurl!=null and msgSkipurl!=''">and msg_skipurl = #{msgSkipurl}</if>
+		<if test="msgParameter!=null and msgParameter!=''">and msg_parameter = #{msgParameter}</if>
+		<if test="msgInitiatorUserId!=null and msgInitiatorUserId!=''">and msg_initiator_user_id = #{msgInitiatorUserId}</if>
+		<if test="msgRecipientUserId!=null and msgRecipientUserId!=''">and msg_recipient_user_id = #{msgRecipientUserId}</if>
+		<if test="msgDisposeUserId!=null and msgDisposeUserId!=''">and msg_dispose_user_id = #{msgDisposeUserId}</if>
+		<if test="msgState!=null ">and msg_state = #{msgState}</if>
+		<if test="msgCreateTime!=null ">and msg_create_time = #{msgCreateTime}</if>
+		<if test="msgCreateDisposeTime!=null ">and msg_create_dispose_time = #{msgCreateDisposeTime}</if>
+		<if test="msgCreateDisposeTime!=null ">and msg_create_dispose_time = #{msgCreateDisposeTime}</if>
+		<if test="msgPushStatus!=null ">and msg_push_status = #{msgPushStatus}</if>
+	</sql>
+    
+    <!-- 公共查询条件 -->
+    <sql id="Example_Where_Clause_sm">
+        where 1=1
+        <if test="id!=null and id!=''">and sm.id = #{id}</if>
+        <if test="msgType!=null and msgType!=''">and sm.msg_type = #{msgType}</if>
+        <if test="msgTitle!=null and msgTitle!=''">and sm.msg_title = #{msgTitle}</if>
+        <if test="msgSkipurl!=null and msgSkipurl!=''">and sm.msg_skipurl = #{msgSkipurl}</if>
+        <if test="msgParameter!=null and msgParameter!=''">and sm.msg_parameter = #{msgParameter}</if>
+        <if test="msgInitiatorUserId!=null and msgInitiatorUserId!=''">and sm.msg_initiator_user_id = #{msgInitiatorUserId}</if>
+        <if test="msgRecipientUserId!=null and msgRecipientUserId!=''">and sm.msg_recipient_user_id = #{msgRecipientUserId}</if>
+        <if test="msgDisposeUserId!=null and msgDisposeUserId!=''">and sm.msg_dispose_user_id = #{msgDisposeUserId}</if>
+        <if test="msgState!=null ">and sm.msg_state = #{msgState}</if>
+        <if test="msgCreateTime!=null ">and sm.msg_create_time = #{msgCreateTime}</if>
+        <if test="msgCreateDisposeTime!=null ">and sm.msg_create_dispose_time = #{msgCreateDisposeTime}</if>
+        <if test="msgCreateDisposeTime!=null ">and sm.msg_create_dispose_time = #{msgCreateDisposeTime}</if>
+        <if test="msgPushStatus!=null ">and sm.msg_push_status = #{msgPushStatus}</if>
+    </sql>
+
+	<!-- 添加记录（所有字段） -->
+	<insert id="add" parameterType="Object" >
+		insert into sys_message (id,msg_type,msg_title,msg_skipurl,msg_parameter,msg_initiator_user_id,msg_recipient_user_id,msg_dispose_user_id,msg_state,msg_create_time,msg_create_dispose_time)
+		values (#{id},#{msgType},#{msgTitle},#{msgSkipurl},#{msgParameter},#{msgInitiatorUserId},#{msgRecipientUserId},#{msgDisposeUserId},#{msgState},#{msgCreateTime},#{msgCreateDisposeTime})
+	</insert>
+
+	<!-- 根据id，修改记录 -->
+	<update id="update" parameterType="Object">
+		update sys_message
+		<set>
+			id = #{id},
+			msg_type = #{msgType},
+			msg_title = #{msgTitle},
+			msg_skipurl = #{msgSkipurl},
+			msg_parameter = #{msgParameter},
+			msg_initiator_user_id = #{msgInitiatorUserId},
+			msg_recipient_user_id = #{msgRecipientUserId},
+			msg_dispose_user_id = #{msgDisposeUserId},
+			msg_state = #{msgState},
+			msg_create_time = #{msgCreateTime},
+			msg_create_dispose_time = #{msgCreateDisposeTime},
+		</set>
+		where id = #{id}
+	</update>
+
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update sys_message
+		<set>
+			<if test="id != null  and id!=''" >id = #{id},</if>
+			<if test="msgType != null  and msgType!=''" >msg_type = #{msgType},</if>
+			<if test="msgTitle != null  and msgTitle!=''" >msg_title = #{msgTitle},</if>
+			<if test="msgSkipurl != null  and msgSkipurl!=''" >msg_skipurl = #{msgSkipurl},</if>
+			<if test="msgParameter != null  and msgParameter!=''" >msg_parameter = #{msgParameter},</if>
+			<if test="msgInitiatorUserId != null  and msgInitiatorUserId!=''" >msg_initiator_user_id = #{msgInitiatorUserId},</if>
+			<if test="msgRecipientUserId != null  and msgRecipientUserId!=''" >msg_recipient_user_id = #{msgRecipientUserId},</if>
+			<if test="msgDisposeUserId != null  and msgDisposeUserId!=''" >msg_dispose_user_id = #{msgDisposeUserId},</if>
+			<if test="msgState != null  " >msg_state = #{msgState},</if>
+			<if test="msgCreateTime != null  " >msg_create_time = #{msgCreateTime},</if>
+			<if test="msgCreateDisposeTime != null  " >msg_create_dispose_time = #{msgCreateDisposeTime},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from sys_message where id=#{id}
+	</delete>
+	
+	<update id="deleteFlagById" parameterType="Object" >
+		update sys_message set delete_flag = 1 where id=#{id}
+	</update>
+
+	<!-- 根据id查询 -->
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> from sys_message where id=#{id}
+	</select>
+
+	<!-- 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
+		select count(1) from sys_message <include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 查询列表 -->
+	<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> from sys_message <include refid="Example_Where_Clause" />
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+    
+    
+    
+    <!-- 查询列表 -->
+    <select id="queryByListByUser" resultMap="BaseResultMap" parameterType="Object">
+        select sm.id,sm.msg_type,sm.msg_title,sm.msg_skipurl,
+        sm.msg_parameter,sm.msg_initiator_user_id,sm.msg_recipient_user_id,
+        sm.msg_dispose_user_id,sm.msg_state,sm.msg_create_time,sm.msg_create_dispose_time,sm.msg_push_status,
+        su.openid
+        from sys_message sm, sys_user su
+        <include refid="Example_Where_Clause_sm" />
+        and sm.msg_recipient_user_id = su.username
+        <if test="pager.orderCondition != null and pager.orderCondition != ''">
+            ${pager.orderCondition}
+        </if>
+        <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+</mapper>
+
+

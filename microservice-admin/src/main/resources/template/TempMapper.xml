@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${bean.pacageName}${bean.modulesName}.dao.${bean.className}Dao">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="${bean.pacageName}${bean.modulesName}.bean.${bean.className}">
+	    <#list bean.fields as field>
+	    <result column="${field.fieldName}" property="${field.fieldJavaName}"/>
+		</#list>
+	</resultMap>
+
+	<!-- ${bean.tableName} table all fields -->
+	<sql id="Base_Column_List">
+		<#list bean.fields as field><#if field_index==0>${field.fieldName}</#if><#if field_index!=0>,${field.fieldName}</#if></#list>
+	</sql>
+
+	<!-- 公共查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<#list bean.fields as field>
+		<if test="${field.fieldJavaName}!=null <#if field.fieldType=="varchar">and ${field.fieldJavaName}!=''</#if>">and ${field.fieldName} = _#_{${field.fieldJavaName}}</if>
+		</#list>
+	</sql>
+
+	<!-- 添加记录（所有字段） -->
+	<insert id="add" parameterType="Object" >
+		insert into ${bean.tableName} (<#list bean.fields as field><#if field_index==0>${field.fieldName}</#if><#if field_index!=0>,${field.fieldName}</#if></#list>)
+		values (<#list bean.fields as field><#if field_index==0>_#_{${field.fieldJavaName}}</#if><#if field_index!=0>,_#_{${field.fieldJavaName}}</#if></#list>)
+	</insert>
+
+	<!-- 根据id，修改记录 -->
+	<update id="update" parameterType="Object">
+		update ${bean.tableName}
+		<set>
+			<#list bean.fields as field>
+			${field.fieldName} = _#_{${field.fieldJavaName}},
+			</#list>
+		</set>
+		where id = _#_{id}
+	</update>
+
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update ${bean.tableName}
+		<set>
+			<#list bean.fields as field>
+			<if test="${field.fieldJavaName} != null  <#if field.fieldType=="varchar">and ${field.fieldJavaName}!=''</#if>" >${field.fieldName} = _#_{${field.fieldJavaName}},</if>
+			</#list>
+		</set>
+		where id = _#_{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from ${bean.tableName} where id=_#_{id}
+	</delete>
+	
+	<update id="deleteFlagById" parameterType="Object" >
+		update ${bean.tableName} set delete_flag = 1 where id=_#_{id}
+	</update>
+
+	<!-- 根据id查询 -->
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> from ${bean.tableName} where id=_#_{id}
+	</select>
+
+	<!-- 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
+		select count(1) from ${bean.tableName} <include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 查询列表 -->
+	<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> from ${bean.tableName} <include refid="Example_Where_Clause" />
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			_$_{pager.orderCondition}
+		</if>
+		<if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			_$_{pager.mysqlQueryCondition}
+		</if>
+	</select>
+
+</mapper>
+
+

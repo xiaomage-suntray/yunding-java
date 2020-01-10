@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.admin.modules.sys.dao.SysDatapermissionRelDao">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.devplatform.admin.modules.sys.bean.SysDatapermissionRel">
+	    <result column="datapermission_rel_id" property="datapermissionRelId"/>
+	    <result column="create_user_id" property="createUserId"/>
+	    <result column="create_time" property="createTime"/>
+	    <result column="update_user_id" property="updateUserId"/>
+	    <result column="update_time" property="updateTime"/>
+	    <result column="remark" property="remark"/>
+	    <result column="del_flag" property="delFlag"/>
+	    <result column="status" property="status"/>
+	    <result column="post_id" property="postId"/>
+	    <result column="org_id" property="orgId"/>
+	    <result column="type" property="type"/>
+	    <result column="datapermission_id" property="datapermissionId"/>
+	</resultMap>
+
+	<!-- sys_datapermission_rel table all fields -->
+	<sql id="Base_Column_List">
+		datapermission_rel_id,create_user_id,create_time,update_user_id,update_time,remark,del_flag,status,post_id,org_id,type,datapermission_id
+	</sql>
+
+	<!-- 公共查询条件 -->
+	<sql id="Example_Where_Clause">
+		where delete_flag=0
+		<if test="datapermissionRelId!=null and datapermissionRelId!=''">and datapermission_rel_id = #{datapermissionRelId}</if>
+		<if test="createUserId!=null and createUserId!=''">and create_user_id = #{createUserId}</if>
+		<if test="createTime!=null ">and create_time = #{createTime}</if>
+		<if test="updateUserId!=null and updateUserId!=''">and update_user_id = #{updateUserId}</if>
+		<if test="updateTime!=null ">and update_time = #{updateTime}</if>
+		<if test="remark!=null and remark!=''">and remark = #{remark}</if>
+		<if test="delFlag!=null ">and del_flag = #{delFlag}</if>
+		<if test="status!=null ">and status = #{status}</if>
+		<if test="postId!=null and postId!=''">and post_id = #{postId}</if>
+		<if test="orgId!=null and orgId!=''">and org_id = #{orgId}</if>
+		<if test="type!=null ">and type = #{type}</if>
+		<if test="datapermissionId!=null and datapermissionId!=''">and datapermission_id = #{datapermissionId}</if>
+	</sql>
+
+
+</mapper>
+
+

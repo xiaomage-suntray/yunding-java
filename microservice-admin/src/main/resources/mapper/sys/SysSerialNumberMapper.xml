@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.admin.modules.sys.dao.SysSerialNumberDao">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.devplatform.admin.modules.sys.bean.SysSerialNumber">
+	    <result column="serial_number" property="serialNumber"/>
+	</resultMap>
+
+	<!-- sys_serial_number table all fields -->
+	<sql id="Base_Column_List">
+		serial_number
+	</sql>
+
+	<!-- 公共查询条件 -->
+	<sql id="Example_Where_Clause">
+		where delete_flag=0
+		<if test="serialNumber!=null ">and serial_number = #{serialNumber}</if>
+	</sql>
+	<insert id="insertForAutoIncr" parameterType="Object" keyProperty="serialNumber" useGeneratedKeys="true">
+		insert into sys_serial_number (serial_number)
+		values (#{serialNumber})
+	</insert>
+
+</mapper>
+
+

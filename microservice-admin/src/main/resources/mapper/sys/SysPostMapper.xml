@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.admin.modules.sys.dao.SysPostDao">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.devplatform.admin.modules.sys.bean.SysPost">
+	    <result column="post_id" property="postId"/>
+	    <result column="create_user_id" property="createUserId"/>
+	    <result column="create_time" property="createTime"/>
+	    <result column="update_user_id" property="updateUserId"/>
+	    <result column="update_time" property="updateTime"/>
+	    <result column="remark" property="remark"/>
+	    <result column="del_flag" property="delFlag"/>
+	    <result column="status" property="status"/>
+	    <result column="parent_id" property="parentId"/>
+	    <result column="post_name" property="postName"/>
+	    <result column="sort" property="sort"/>
+	    <result column="level" property="level"/>
+	    <result column="post_code" property="postCode"/>
+	</resultMap>
+
+	<!-- sys_post table all fields -->
+	<sql id="Base_Column_List">
+		post_id,create_user_id,create_time,update_user_id,update_time,remark,del_flag,status,parent_id,post_name,sort,level,post_code
+	</sql>
+
+	<!-- 公共查询条件 -->
+	<sql id="Example_Where_Clause">
+		where delete_flag=0
+		<if test="postId!=null and postId!=''">and post_id = #{postId}</if>
+		<if test="createUserId!=null and createUserId!=''">and create_user_id = #{createUserId}</if>
+		<if test="createTime!=null ">and create_time = #{createTime}</if>
+		<if test="updateUserId!=null and updateUserId!=''">and update_user_id = #{updateUserId}</if>
+		<if test="updateTime!=null ">and update_time = #{updateTime}</if>
+		<if test="remark!=null and remark!=''">and remark = #{remark}</if>
+		<if test="delFlag!=null ">and del_flag = #{delFlag}</if>
+		<if test="status!=null ">and status = #{status}</if>
+		<if test="parentId!=null and parentId!=''">and parent_id = #{parentId}</if>
+		<if test="postName!=null and postName!=''">and post_name = #{postName}</if>
+		<if test="sort!=null ">and sort = #{sort}</if>
+		<if test="level!=null ">and level = #{level}</if>
+		<if test="postCode!=null and postCode!=''">and post_code = #{postCode}</if>
+	</sql>
+
+
+</mapper>
+
+

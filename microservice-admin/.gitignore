@@ -1,0 +1,35 @@
+/target/
+.gitlat-ci.yml
+*.yml
+*.gz
+*.log
+createJava.properties
+src/main/java/com/devplatform/admin/config/CorsConfig.java
+CorsConfig.java
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+.gitlat-ci.yml
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+.gitlat-ci.yml
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+createJava.properties
+.gitlat-ci.yml

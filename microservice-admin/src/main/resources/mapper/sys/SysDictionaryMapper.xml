@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.admin.modules.sys.dao.SysDictionaryDao">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.devplatform.admin.modules.sys.bean.SysDictionary">
+	    <result column="id" property="id"/>
+	    <result column="created_user_id" property="createdUserId"/>
+	    <result column="created_time" property="createdTime"/>
+	    <result column="updated_user_id" property="updatedUserId"/>
+	    <result column="updated_time" property="updatedTime"/>
+	    <result column="dictionary_calss" property="dictionaryCalss"/>
+	    <result column="dictionary_name" property="dictionaryName"/>
+	    <result column="dictionary_code" property="dictionaryCode"/>
+	</resultMap>
+
+	<!-- sys_dictionary table all fields -->
+	<sql id="Base_Column_List">
+		id,created_user_id,created_time,updated_user_id,updated_time,dictionary_calss,dictionary_name,dictionary_code
+	</sql>
+
+	<!-- 公共查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<if test="id!=null and id!=''">and id = #{id}</if>
+		<if test="createdUserId!=null and createdUserId!=''">and created_user_id = #{createdUserId}</if>
+		<if test="createdTime!=null ">and created_time = #{createdTime}</if>
+		<if test="updatedUserId!=null and updatedUserId!=''">and updated_user_id = #{updatedUserId}</if>
+		<if test="updatedTime!=null ">and updated_time = #{updatedTime}</if>
+		<if test="dictionaryCalss!=null and dictionaryCalss!=''">and dictionary_calss = #{dictionaryCalss}</if>
+		<if test="dictionaryName!=null and dictionaryName!=''">and dictionary_name = #{dictionaryName}</if>
+		<if test="dictionaryCode!=null and dictionaryCode!=''">and dictionary_code = #{dictionaryCode}</if>
+	</sql>
+
+	<!-- 添加记录（所有字段） -->
+	<insert id="add" parameterType="Object" >
+		insert into sys_dictionary (id,created_user_id,created_time,updated_user_id,updated_time,dictionary_calss,dictionary_name,dictionary_code)
+		values (#{id},#{createdUserId},#{createdTime},#{updatedUserId},#{updatedTime},#{dictionaryCalss},#{dictionaryName},#{dictionaryCode})
+	</insert>
+
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update sys_dictionary
+		<set>
+			<if test="id != null  and id!=''" >id = #{id},</if>
+			<if test="createdUserId != null  and createdUserId!=''" >created_user_id = #{createdUserId},</if>
+			<if test="createdTime != null  " >created_time = #{createdTime},</if>
+			<if test="updatedUserId != null  and updatedUserId!=''" >updated_user_id = #{updatedUserId},</if>
+			<if test="updatedTime != null  " >updated_time = #{updatedTime},</if>
+			<if test="dictionaryCalss != null  and dictionaryCalss!=''" >dictionary_calss = #{dictionaryCalss},</if>
+			<if test="dictionaryName != null  and dictionaryName!=''" >dictionary_name = #{dictionaryName},</if>
+			<if test="dictionaryCode != null  and dictionaryCode!=''" >dictionary_code = #{dictionaryCode},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from sys_dictionary where id=#{id}
+	</delete>
+	
+	<update id="deleteFlagById" parameterType="Object" >
+		update sys_dictionary set delete_flag = 1 where id=#{id}
+	</update>
+
+	<!-- 根据id查询 -->
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> from sys_dictionary where id=#{id}
+	</select>
+
+	<!-- 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
+		select count(1) from sys_dictionary <include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 查询列表 -->
+	<select id="getListByPara" resultMap="BaseResultMap" parameterType="com.devplatform.admin.modules.sys.bean.SysDictionary">
+		select <include refid="Base_Column_List" /> from sys_dictionary <include refid="Example_Where_Clause" />
+		<!--<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>-->
+	</select>
+
+</mapper>
+
+

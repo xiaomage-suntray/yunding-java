@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.admin.business.wechat.dao.WeixinAccessTokenDao">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.devplatform.admin.business.wechat.bean.WeixinAccessToken">
+	    <result column="id" property="id"/>
+	    <result column="access_token" property="accessToken"/>
+	    <result column="created_time" property="createdTime"/>
+	</resultMap>
+
+	<!-- weixin_access_token table all fields -->
+	<sql id="Base_Column_List">
+		id,access_token,created_time
+	</sql>
+
+	<!-- 公共查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<if test="id!=null and id!=''">and id = #{id}</if>
+		<if test="accessToken!=null and accessToken!=''">and access_token = #{accessToken}</if>
+		<if test="createdTime!=null ">and created_time = #{createdTime}</if>
+	</sql>
+
+	<!-- 添加记录（所有字段） -->
+	<insert id="add" parameterType="Object" >
+		insert into weixin_access_token (id,access_token,created_time)
+		values (#{id},#{accessToken},#{createdTime})
+	</insert>
+
+	<!-- 根据id，修改记录 -->
+	<update id="update" parameterType="Object">
+		update weixin_access_token
+		<set>
+			id = #{id},
+			access_token = #{accessToken},
+			created_time = #{createdTime},
+		</set>
+		where id = #{id}
+	</update>
+
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update weixin_access_token
+		<set>
+			<if test="id != null  and id!=''" >id = #{id},</if>
+			<if test="accessToken != null  and accessToken!=''" >access_token = #{accessToken},</if>
+			<if test="createdTime != null  " >created_time = #{createdTime},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from weixin_access_token where id=#{id}
+	</delete>
+	
+	<update id="deleteFlagById" parameterType="Object" >
+		update weixin_access_token set delete_flag = 1 where id=#{id}
+	</update>
+
+	<!-- 根据id查询 -->
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> from weixin_access_token where id=#{id}
+	</select>
+
+	<!-- 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
+		select count(1) from weixin_access_token <include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 查询列表 -->
+	<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> from weixin_access_token <include refid="Example_Where_Clause" />
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+	<!-- 查询列表 -->
+	<select id="queryByNewAccessToken" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> from weixin_access_token order by created_time desc
+		limit 0,1
+	</select>
+
+</mapper>
+
+

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.admin.business.carNumberLimit.dao.CarNumberLimitDao">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.devplatform.admin.business.carNumberLimit.bean.CarNumberLimit">
+	    <result column="id" property="id"/>
+	    <result column="cityname" property="cityname"/>
+	    <result column="start_time" property="startTime"/>
+	    <result column="end_time" property="endTime"/>
+	    <result column="rules" property="rules"/>
+	    <result column="create_date" property="createDate"/>
+	</resultMap>
+
+	<!-- car_number_limit table all fields -->
+	<sql id="Base_Column_List">
+		id,cityname,start_time,end_time,rules,create_date
+	</sql>
+
+	<!-- 公共查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<if test="id!=null and id!=''">and id = #{id}</if>
+		<if test="cityname!=null and cityname!=''">and cityname = #{cityname}</if>
+		<if test="startTime!=null ">and start_time = #{startTime}</if>
+		<if test="endTime!=null ">and end_time = #{endTime}</if>
+		<if test="rules!=null ">and rules = #{rules}</if>
+		<if test="createDate!=null ">and create_date = #{createDate}</if>
+	</sql>
+
+	<!-- 添加记录（所有字段） -->
+	<insert id="add" parameterType="Object" >
+		insert into car_number_limit (id,cityname,start_time,end_time,rules,create_date)
+		values (#{id},#{cityname},#{startTime},#{endTime},#{rules},#{createDate})
+	</insert>
+
+
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from car_number_limit where id=#{id}
+	</delete>
+	
+	<update id="deleteFlagById" parameterType="Object" >
+		update car_number_limit set delete_flag = 1 where id=#{id}
+	</update>
+
+	<!-- 根据id查询 -->
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> from car_number_limit where id=#{id}
+	</select>
+
+	<!-- 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
+		select count(1) from car_number_limit <include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 查询列表 -->
+	<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> from car_number_limit <include refid="Example_Where_Clause" />
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+
+</mapper>
+
+

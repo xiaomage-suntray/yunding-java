@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.admin.modules.sys.dao.SysFormDao">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.devplatform.admin.modules.sys.bean.SysForm">
+	    <result column="id" property="id"/>
+	    <result column="form_name" property="formName"/>
+	    <result column="url" property="url"/>
+	    <result column="identity" property="identity"/>
+	    <result column="create_time" property="createTime"/>
+	    <result column="del_flag" property="delFlag"/>
+	    <result column="remark" property="remark"/>
+	    <result column="create_user_id" property="createUserId"/>
+	    <result column="update_user_id" property="updateUserId"/>
+	    <result column="update_time" property="updateTime"/>
+	    <result column="status" property="status"/>
+	    <result column="parent_id" property="parentId"/>
+	    <result column="sort" property="sort"/>
+	</resultMap>
+
+	<!-- sys_form table all fields -->
+	<sql id="Base_Column_List">
+		id,form_name,url,identity,create_time,del_flag,remark,create_user_id,update_user_id,update_time,status,parent_id,sort
+	</sql>
+
+	<!-- 公共查询条件 -->
+	<sql id="Example_Where_Clause">
+		where delete_flag=0
+		<if test="id!=null and id!=''">and id = #{id}</if>
+		<if test="formName!=null and formName!=''">and form_name = #{formName}</if>
+		<if test="url!=null and url!=''">and url = #{url}</if>
+		<if test="identity!=null and identity!=''">and identity = #{identity}</if>
+		<if test="createTime!=null ">and create_time = #{createTime}</if>
+		<if test="delFlag!=null ">and del_flag = #{delFlag}</if>
+		<if test="remark!=null and remark!=''">and remark = #{remark}</if>
+		<if test="createUserId!=null and createUserId!=''">and create_user_id = #{createUserId}</if>
+		<if test="updateUserId!=null and updateUserId!=''">and update_user_id = #{updateUserId}</if>
+		<if test="updateTime!=null ">and update_time = #{updateTime}</if>
+		<if test="status!=null ">and status = #{status}</if>
+		<if test="parentId!=null and parentId!=''">and parent_id = #{parentId}</if>
+		<if test="sort!=null ">and sort = #{sort}</if>
+	</sql>
+
+
+</mapper>
+
+

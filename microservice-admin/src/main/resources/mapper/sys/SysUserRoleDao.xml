@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.devplatform.admin.modules.sys.dao.SysUserRoleDao">
+
+	<delete id="deleteBatch">
+		delete from sys_user_role where role_id in
+		<foreach item="roleId" collection="array" open="(" separator="," close=")">
+			#{roleId}
+		</foreach>
+	</delete>
+
+	<select id="queryRoleIdList" resultType="String">
+		select role_id from sys_user_role where user_id = #{value}
+	</select>
+
+	<!-- 添加记录（所有字段） -->
+	<insert id="saveSysUserRole" parameterType="com.devplatform.admin.modules.sys.bean.SysUserRoleEntity" >
+		insert into sys_user_role (id,user_id,role_id)
+		values (#{id},#{userId},#{roleId})
+	</insert>
+
+
+</mapper>

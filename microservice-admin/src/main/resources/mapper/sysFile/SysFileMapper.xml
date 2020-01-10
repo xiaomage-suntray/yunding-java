@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.admin.business.sysFile.dao.SysFileDao">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.devplatform.admin.business.sysFile.bean.SysFile">
+	    <result column="id" property="id"/>
+	    <result column="created_user_id" property="createdUserId"/>
+	    <result column="created_time" property="createdTime"/>
+	    <result column="updated_user_id" property="updatedUserId"/>
+	    <result column="updated_time" property="updatedTime"/>
+	    <result column="file_url" property="fileUrl"/>
+	    <result column="file_name" property="fileName"/>
+	    <result column="file_type" property="fileType"/>
+	</resultMap>
+
+	<!-- sys_file table all fields -->
+	<sql id="Base_Column_List">
+		id,created_user_id,created_time,updated_user_id,updated_time,file_url,file_name,file_type
+	</sql>
+
+	<!-- 公共查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<if test="id!=null and id!=''">and id = #{id}</if>
+		<if test="createdUserId!=null and createdUserId!=''">and created_user_id = #{createdUserId}</if>
+		<if test="createdTime!=null ">and created_time = #{createdTime}</if>
+		<if test="updatedUserId!=null and updatedUserId!=''">and updated_user_id = #{updatedUserId}</if>
+		<if test="updatedTime!=null ">and updated_time = #{updatedTime}</if>
+		<if test="fileUrl!=null and fileUrl!=''">and file_url = #{fileUrl}</if>
+		<if test="fileName!=null and fileName!=''">and file_name = #{fileName}</if>
+		<if test="fileType!=null ">and file_type = #{fileType}</if>
+	</sql>
+
+	<!-- 添加记录（所有字段） -->
+	<insert id="add" parameterType="Object" >
+		insert into sys_file (id,created_user_id,created_time,updated_user_id,updated_time,file_url,file_name,file_type)
+		values (#{id},#{createdUserId},#{createdTime},#{updatedUserId},#{updatedTime},#{fileUrl},#{fileName},#{fileType})
+	</insert>
+
+	<!-- 根据id，修改记录 -->
+	<update id="update" parameterType="Object">
+		update sys_file
+		<set>
+			id = #{id},
+			created_user_id = #{createdUserId},
+			created_time = #{createdTime},
+			updated_user_id = #{updatedUserId},
+			updated_time = #{updatedTime},
+			file_url = #{fileUrl},
+			file_name = #{fileName},
+			file_type = #{fileType},
+		</set>
+		where id = #{id}
+	</update>
+
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="Object">
+		update sys_file
+		<set>
+			<if test="id != null  and id!=''" >id = #{id},</if>
+			<if test="createdUserId != null  and createdUserId!=''" >created_user_id = #{createdUserId},</if>
+			<if test="createdTime != null  " >created_time = #{createdTime},</if>
+			<if test="updatedUserId != null  and updatedUserId!=''" >updated_user_id = #{updatedUserId},</if>
+			<if test="updatedTime != null  " >updated_time = #{updatedTime},</if>
+			<if test="fileUrl != null  and fileUrl!=''" >file_url = #{fileUrl},</if>
+			<if test="fileName != null  and fileName!=''" >file_name = #{fileName},</if>
+			<if test="fileType != null  " >file_type = #{fileType},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from sys_file where id=#{id}
+	</delete>
+	
+	<update id="deleteFlagById" parameterType="Object" >
+		update sys_file set delete_flag = 1 where id=#{id}
+	</update>
+
+	<!-- 根据id查询 -->
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> from sys_file where id=#{id}
+	</select>
+
+	<!-- 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
+		select count(1) from sys_file <include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 查询列表 -->
+	<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> from sys_file <include refid="Example_Where_Clause" />
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+
+</mapper>
+
+

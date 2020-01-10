@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.devplatform.admin.modules.sys.dao.SysRoleDao">
+	
+	<!-- 查询用户创建的角色ID列表 -->
+	<select id="queryRoleIdList" resultType="String">
+		select role_id from sys_role where create_user_id = #{createUserId} 
+	</select>
+
+
+	<!--查询当前登陆人的角色列表  id  name-->
+
+	<select id="sysRoleList" resultType="com.devplatform.admin.modules.sys.bean.SysRoleEntity">
+		select sys_role.role_id ,sys_role.role_name from sys_role LEFT JOIN sys_user_role on sys_role.role_id=sys_user_role.role_id
+        where sys_user_role.user_id=#{userId}
+
+	</select>
+
+</mapper>

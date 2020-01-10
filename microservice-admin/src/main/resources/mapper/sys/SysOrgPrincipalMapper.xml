@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.admin.modules.sys.dao.SysOrgPrincipalDao">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.devplatform.admin.modules.sys.bean.SysOrgPrincipal">
+	    <result column="org_principal_id" property="orgPrincipalId"/>
+	    <result column="org_id" property="orgId"/>
+	    <result column="user_id" property="userId"/>
+	    <result column="create_user_id" property="createUserId"/>
+	    <result column="create_time" property="createTime"/>
+	</resultMap>
+
+	<!-- sys_org_principal table all fields -->
+	<sql id="Base_Column_List">
+		org_principal_id,org_id,user_id,create_user_id,create_time
+	</sql>
+
+	<!-- 公共查询条件 -->
+	<sql id="Example_Where_Clause">
+		where delete_flag=0
+		<if test="orgPrincipalId!=null and orgPrincipalId!=''">and org_principal_id = #{orgPrincipalId}</if>
+		<if test="orgId!=null and orgId!=''">and org_id = #{orgId}</if>
+		<if test="userId!=null and userId!=''">and user_id = #{userId}</if>
+		<if test="createUserId!=null and createUserId!=''">and create_user_id = #{createUserId}</if>
+		<if test="createTime!=null ">and create_time = #{createTime}</if>
+	</sql>
+
+
+</mapper>
+
+

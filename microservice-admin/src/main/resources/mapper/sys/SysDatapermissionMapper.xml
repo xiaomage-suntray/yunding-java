@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.admin.modules.sys.dao.SysDatapermissionDao">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.devplatform.admin.modules.sys.bean.SysDatapermission">
+	    <result column="datapermission_id" property="datapermissionId"/>
+	    <result column="create_user_id" property="createUserId"/>
+	    <result column="create_time" property="createTime"/>
+	    <result column="update_user_id" property="updateUserId"/>
+	    <result column="update_time" property="updateTime"/>
+	    <result column="remark" property="remark"/>
+	    <result column="del_flag" property="delFlag"/>
+	    <result column="status" property="status"/>
+	    <result column="name" property="name"/>
+	    <result column="url" property="url"/>
+	    <result column="addparam" property="addparam"/>
+	    <result column="parent_id" property="parentId"/>
+	</resultMap>
+
+	<!-- sys_datapermission table all fields -->
+	<sql id="Base_Column_List">
+		datapermission_id,create_user_id,create_time,update_user_id,update_time,remark,del_flag,status,name,url,addparam,parent_id
+	</sql>
+
+	<!-- 公共查询条件 -->
+	<sql id="Example_Where_Clause">
+		where delete_flag=0
+		<if test="datapermissionId!=null and datapermissionId!=''">and datapermission_id = #{datapermissionId}</if>
+		<if test="createUserId!=null and createUserId!=''">and create_user_id = #{createUserId}</if>
+		<if test="createTime!=null ">and create_time = #{createTime}</if>
+		<if test="updateUserId!=null and updateUserId!=''">and update_user_id = #{updateUserId}</if>
+		<if test="updateTime!=null ">and update_time = #{updateTime}</if>
+		<if test="remark!=null and remark!=''">and remark = #{remark}</if>
+		<if test="delFlag!=null ">and del_flag = #{delFlag}</if>
+		<if test="status!=null ">and status = #{status}</if>
+		<if test="name!=null and name!=''">and name = #{name}</if>
+		<if test="url!=null and url!=''">and url = #{url}</if>
+		<if test="addparam!=null and addparam!=''">and addparam = #{addparam}</if>
+		<if test="parentId!=null and parentId!=''">and parent_id = #{parentId}</if>
+	</sql>
+
+
+	<select id="queryListByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select sd.*
+		from sys_datapermission_rel sdmr
+		left join sys_datapermission sd on sdmr.datapermission_id = sd. datapermission_id
+		left join sys_post sp on sdmr.post_id = sp.post_id
+		left join sys_user_post sup on sp.post_id = sup.post_id
+		left join sys_user su on sup.user_id = su.user_id
+		where su.user_id = #{userId}
+	</select>
+
+</mapper>
+
+
