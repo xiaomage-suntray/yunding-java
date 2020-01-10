@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.admin.business.weatherInfo.dao.WeatherinfoForecastsDao">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.devplatform.admin.business.weatherInfo.bean.WeatherinfoForecasts">
+	    <result column="id" property="id"/>
+	    <result column="date" property="date"/>
+	    <result column="week" property="week"/>
+	    <result column="dayweather" property="dayweather"/>
+	    <result column="nightweather" property="nightweather"/>
+	    <result column="daytemp" property="daytemp"/>
+	    <result column="nighttemp" property="nighttemp"/>
+	    <result column="daywind" property="daywind"/>
+	    <result column="nightwind" property="nightwind"/>
+	    <result column="daypower" property="daypower"/>
+	    <result column="nightpower" property="nightpower"/>
+	</resultMap>
+
+	<!-- weatherInfo_forecasts table all fields -->
+	<sql id="Base_Column_List">
+		id,date,week,dayweather,nightweather,daytemp,nighttemp,daywind,nightwind,daypower,nightpower
+	</sql>
+
+	<!-- 公共查询条件 -->
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<if test="id!=null and id!=''">and id = #{id}</if>
+		<if test="date!=null and date!=''">and date = #{date}</if>
+		<if test="week!=null and week!=''">and week = #{week}</if>
+		<if test="dayweather!=null and dayweather!=''">and dayweather = #{dayweather}</if>
+		<if test="nightweather!=null and nightweather!=''">and nightweather = #{nightweather}</if>
+		<if test="daytemp!=null and daytemp!=''">and daytemp = #{daytemp}</if>
+		<if test="nighttemp!=null and nighttemp!=''">and nighttemp = #{nighttemp}</if>
+		<if test="daywind!=null and daywind!=''">and daywind = #{daywind}</if>
+		<if test="nightwind!=null and nightwind!=''">and nightwind = #{nightwind}</if>
+		<if test="daypower!=null and daypower!=''">and daypower = #{daypower}</if>
+		<if test="nightpower!=null and nightpower!=''">and nightpower = #{nightpower}</if>
+	</sql>
+
+	<!-- 添加记录（所有字段） -->
+	<insert id="add" parameterType="Object" >
+		insert into weatherInfo_forecasts (id,date,week,dayweather,nightweather,daytemp,nighttemp,daywind,nightwind,daypower,nightpower)
+		values (#{id},#{date},#{week},#{dayweather},#{nightweather},#{daytemp},#{nighttemp},#{daywind},#{nightwind},#{daypower},#{nightpower})
+	</insert>
+
+
+	<!-- 根据id查询 -->
+	<select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> from weatherInfo_forecasts where id=#{id}
+	</select>
+
+	<!-- 列表总数 -->
+	<select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
+		select count(1) from weatherInfo_forecasts <include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 查询列表 -->
+	<select id="queryByList" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> from weatherInfo_forecasts <include refid="Example_Where_Clause" />
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+
+</mapper>
+
+
