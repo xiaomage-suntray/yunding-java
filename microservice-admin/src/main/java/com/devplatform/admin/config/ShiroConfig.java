@@ -84,6 +84,7 @@ public class ShiroConfig {
         filterMap.put("/feignServer/**", "anon");
         filterMap.put("/wechat/**", "anon");
         filterMap.put("/carNumberLimit/**", "anon");
+        filterMap.put("/weatherinfo/**", "anon");
         filterMap.put("/**", "oauth2");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
         
